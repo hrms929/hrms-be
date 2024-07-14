@@ -1,4 +1,4 @@
-import { type Logger, } from 'src/shared/logger';
+import { Logger } from 'src/shared/logger';
 
 export type ObjectLiteral = Record<string, unknown>;
 

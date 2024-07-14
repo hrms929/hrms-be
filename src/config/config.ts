@@ -1,10 +1,10 @@
-import { type TConfig, Environment, } from '@/shared/enums';
+import { TConfig, Environment } from '@/shared/enums';
 
 class Config {
   private readonly ENVIRONMENT: string = process.env.ENVIRONMENT;
 
   private readonly POSTGRES_HOST: string = process.env.POSTGRES_HOST;
-  private readonly POSTGRES_PORT: number = Number(process.env.POSTGRES_PORT,);
+  private readonly POSTGRES_PORT: number = Number(process.env.POSTGRES_PORT);
   private readonly POSTGRES_USER: string = process.env.POSTGRES_USER;
   private readonly POSTGRES_PASSWORD: string = process.env.POSTGRES_PASSWORD;
   private readonly POSTGRES_DATABASE: string = process.env.POSTGRES_DATABASE;
@@ -15,8 +15,7 @@ class Config {
   private readonly THROTTLE_TTL: number = 1000;
 
   private readonly CLOUDINARY_API_KEY: string = process.env.CLOUDINARY_API_KEY;
-  private readonly CLOUDINARY_API_SECRET: string =
-    process.env.CLOUDINARY_API_SECRET;
+  private readonly CLOUDINARY_API_SECRET: string = process.env.CLOUDINARY_API_SECRET;
 
   private readonly CLOUD_NAME: string = process.env.CLOUD_NAME;
 
@@ -27,10 +26,10 @@ class Config {
 
   private readonly BYPASS_EMAIL_EXISTENCE_CHECK: boolean = process.env.BYPASS_EMAIL_EXISTENCE_CHECK === 'TRUE';
 
-  private readonly BCRYPT_SALT_ROUND: number = Number(process.env.BCRYPT_SALT_ROUND,);
+  private readonly BCRYPT_SALT_ROUND: number = Number(process.env.BCRYPT_SALT_ROUND);
 
-  private readonly JWT_PRIVATE_KEY: string = process.env.JWT_PRIVATE_KEY?.replace(/\\n/g, '\n',);
-  private readonly JWT_PUBLIC_KEY: string = process.env.JWT_PUBLIC_KEY?.replace(/\\n/g, '\n',);
+  private readonly JWT_PRIVATE_KEY: string = process.env.JWT_PRIVATE_KEY?.replace(/\\n/g, '\n');
+  private readonly JWT_PUBLIC_KEY: string = process.env.JWT_PUBLIC_KEY?.replace(/\\n/g, '\n');
 
   private readonly API_BASE_URL: string;
 
@@ -49,7 +48,7 @@ class Config {
     }
   }
 
-  public get<T>(key: TConfig,): T {
+  public get<T>(key: TConfig): T {
     return this[key] as T;
   }
 

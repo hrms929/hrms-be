@@ -1,5 +1,5 @@
 export const reqFields = {
-  'POST /user': ['name',],
+  'POST /user': ['name']
 };
 
 export const resFields = {};

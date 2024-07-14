@@ -1,16 +1,16 @@
-import { Injectable, type OnModuleInit, } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 
-import { type UploadApiResponse, v2 as cloudinary, } from 'cloudinary';
+import { UploadApiResponse, v2 as cloudinary } from 'cloudinary';
 
-import { CloudinaryConfig, } from '@/config';
-import { Folders, } from '@/shared/enums';
+import { CloudinaryConfig } from '@/config';
+import { Folders } from '@/shared/enums';
 
 @Injectable()
 export class FileService implements OnModuleInit {
   constructor () {}
 
   onModuleInit () {
-    cloudinary.config(CloudinaryConfig,);
+    cloudinary.config(CloudinaryConfig);
   }
 
   /**
@@ -19,11 +19,11 @@ export class FileService implements OnModuleInit {
    * @param {Folders} folder
    * @returns {UploadApiResponse}
    */
-  private async upload (flie: string, folder: Folders,): Promise<UploadApiResponse> {
+  private async upload (flie: string, folder: Folders): Promise<UploadApiResponse> {
     return await cloudinary.uploader.upload(flie, {
       resource_type: 'auto',
-      folder: `${Folders.BASE_PATH}/${folder}`,
-    },);
+      folder: `${Folders.BASE_PATH}/${folder}`
+    });
   }
 
   /**
@@ -31,14 +31,14 @@ export class FileService implements OnModuleInit {
    * @param {string} profilePic
    * @returns {UploadApiResponse}
    */
-  public async uploadProfilePic (profilePic: string, ctx: ReqCtx | Ctx,) {
-    const result = await this.upload(profilePic, Folders.BASE_PATH,);
+  public async uploadProfilePic (profilePic: string, ctx: ReqCtx | Ctx) {
+    const result = await this.upload(profilePic, Folders.BASE_PATH);
     ctx.logger.log(
-      `result | ${JSON.stringify(result,)}`,
-      'FileService | uploadProfilePic',
+      `result | ${JSON.stringify(result)}`,
+      'FileService | uploadProfilePic'
     );
 
-    return { url: result.url, publicId: result.public_id, };
+    return { url: result.url, publicId: result.public_id };
   }
 
   /**
@@ -48,12 +48,12 @@ export class FileService implements OnModuleInit {
    */
   public async deleteFile (
     publicId: string,
-    ctx: ReqCtx | Ctx,
+    ctx: ReqCtx | Ctx
   ): Promise<boolean> {
-    const result = await cloudinary.uploader.destroy(publicId,);
+    const result = await cloudinary.uploader.destroy(publicId);
     ctx.logger.log(
-      `result | ${JSON.stringify(result,)}`,
-      'FileService | deleteFile',
+      `result | ${JSON.stringify(result)}`,
+      'FileService | deleteFile'
     );
 
     return result?.result === 'ok';

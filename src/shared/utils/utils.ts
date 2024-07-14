@@ -2,8 +2,8 @@
 import * as bcrypt from 'bcrypt';
 import ShortUniqueId from 'short-unique-id';
 
-import { type ObjectLiteral, } from '@/shared/interfaces';
-import { config, } from '@/config';
+import { ObjectLiteral } from '@/shared/interfaces';
+import { config } from '@/config';
 
 export class Utils {
   private static readonly uid = new ShortUniqueId();
@@ -12,7 +12,7 @@ export class Utils {
    * @param {any} value
    * @returns {boolean}
    */
-  public static isNil (value: any,): boolean {
+  public static isNil (value: any): boolean {
     return value === null || value === undefined;
   }
 
@@ -20,8 +20,8 @@ export class Utils {
    *
    * @returns {string}
    */
-  public static genUUID (len = 16,): string {
-    return this.uid.stamp(len,);
+  public static genUUID (len = 16): string {
+    return this.uid.stamp(len);
   }
 
   /**
@@ -29,7 +29,7 @@ export class Utils {
    * @param {unknown} data
    * @returns {boolean}
    */
-  public static isObj (data: unknown,): boolean {
+  public static isObj (data: unknown): boolean {
     return typeof data === 'object' && data !== null;
   }
 
@@ -37,16 +37,16 @@ export class Utils {
    *
    * @param {string} obj
    */
-  public static stringify (obj: any,): string {
+  public static stringify (obj: any): string {
     if (obj instanceof Error) {
-      return this.formatErr(obj,);
+      return this.formatErr(obj);
     }
 
-    if (this.isObj(obj,)) {
-      return JSON.stringify(obj,);
+    if (this.isObj(obj)) {
+      return JSON.stringify(obj);
     }
 
-    if (this.isNil(obj,)) {
+    if (this.isNil(obj)) {
       return obj;
     }
 
@@ -58,11 +58,11 @@ export class Utils {
    * @param {any} value
    * @returns {unknown}
    */
-  public static defaultMask (value: any,): null | undefined | object | string {
-    if (Utils.isNil(value,)) {
+  public static defaultMask (value: any): null | undefined | object | string {
+    if (Utils.isNil(value)) {
       return value;
     }
-    if (Array.isArray(value,)) {
+    if (Array.isArray(value)) {
       return [];
     }
     if (typeof value === 'object') {
@@ -70,7 +70,7 @@ export class Utils {
     }
 
     const len: number = value?.toString().length;
-    return '*'.repeat(len > 100 ? 100 : len,);
+    return '*'.repeat(len > 100 ? 100 : len);
   }
 
   /**
@@ -81,12 +81,12 @@ export class Utils {
    * @return {string}
    */
    
-  public static maskObj (obj: ObjectLiteral, fields: string[], maskFn = this.defaultMask,) {
+  public static maskObj (obj: ObjectLiteral, fields: string[], maskFn = this.defaultMask) {
     const replacerFn = fields?.length
-      ? (key: string, value: any,) => (fields.includes(key,) ? maskFn(value,) : value)
+      ? (key: string, value: any) => (fields.includes(key) ? maskFn(value) : value)
       : null;
 
-    return JSON.stringify(obj, replacerFn,);
+    return JSON.stringify(obj, replacerFn);
   }
 
   /**
@@ -94,7 +94,7 @@ export class Utils {
    * @param {Error} error
    * @returns {string}
    */
-  public static formatErr (error: Error,): string {
+  public static formatErr (error: Error): string {
     if (error instanceof Error) {
       return `error | ${error.toString()} | stack | ${error.stack}`;
     }
@@ -105,9 +105,9 @@ export class Utils {
    * @param {string} base64Str
    * @returns {number} - In bytes
    */
-  public static getFileSize (base64Str: string,): number {
-    const str = base64Str.substring(base64Str.indexOf(',',) + 1,);
-    const decoded = atob(str,);
+  public static getFileSize (base64Str: string): number {
+    const str = base64Str.substring(base64Str.indexOf(',') + 1);
+    const decoded = atob(str);
 
     return decoded.length;
   }
@@ -117,8 +117,8 @@ export class Utils {
    * @param {string} base64Str
    * @returns {string}
    */
-  public static getMediaType (base64Str: string,): string {
-    return base64Str.slice(base64Str.indexOf(':',) + 1, base64Str.indexOf('/',),);
+  public static getMediaType (base64Str: string): string {
+    return base64Str.slice(base64Str.indexOf(':') + 1, base64Str.indexOf('/'));
   }
 
   /**
@@ -127,9 +127,9 @@ export class Utils {
    * @param {object} replacer
    * @returns {string}
    */
-  public static htmlValSubstituter (html: string, replacer: object,) {
+  public static htmlValSubstituter (html: string, replacer: object) {
     for (const key in replacer) {
-      html = html.replaceAll(`{${key}}`, (replacer[key] as string),);
+      html = html.replaceAll(`{${key}}`, (replacer[key] as string));
     }
 
     return html;
@@ -140,10 +140,10 @@ export class Utils {
    * @param {number} len
    * @returns {string}
    */
-  public static genRandNo (len: number = 1,): string {
+  public static genRandNo (len: number = 1): string {
     return Math.random()
       .toString()
-      .slice(2, len + 2,);
+      .slice(2, len + 2);
   }
 
   /**
@@ -154,9 +154,9 @@ export class Utils {
    */
   public static async hash (
     val: string,
-    saltRound: number = config.get('BCRYPT_SALT_ROUND',),
+    saltRound: number = config.get('BCRYPT_SALT_ROUND')
   ): Promise<string> {
-    return await bcrypt.hash(val, saltRound,);
+    return await bcrypt.hash(val, saltRound);
   }
 
   /**
@@ -165,7 +165,7 @@ export class Utils {
    * @param {string} hashedVal
    * @returns {Promise<boolean>}
    */
-  public static async compareHash (plainVal: string, hashedVal: string,): Promise<boolean> {
-    return await bcrypt.compare(plainVal, hashedVal,);
+  public static async compareHash (plainVal: string, hashedVal: string): Promise<boolean> {
+    return await bcrypt.compare(plainVal, hashedVal);
   }
 }
