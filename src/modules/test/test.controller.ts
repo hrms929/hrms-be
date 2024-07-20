@@ -22,7 +22,7 @@ import { TestDTO } from './test.dto';
 @ApiResponse(getErrResSchema(HttpStatus.INTERNAL_SERVER_ERROR))
 @Controller('test')
 export class TestController {
-  constructor (private readonly testService: TestService) {}
+  constructor(private readonly testService: TestService) {}
 
   /**
    *
@@ -32,7 +32,7 @@ export class TestController {
    */
   @ApiResponse({ status: HttpStatus.OK, type: MessageDTO })
   @Post('/test')
-  test (@Body() testDto: TestDTO, @Ctx() ctx: ReqCtx) {
+  test(@Body() testDto: TestDTO, @Ctx() ctx: ReqCtx) {
     return this.testService.test(testDto, ctx);
   }
 }

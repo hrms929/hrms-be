@@ -31,7 +31,8 @@ export default [
       '@typescript-eslint/no-explicit-any': 'off',
       'space-infix-ops': ['error', { 'int32Hint': false }],
       'key-spacing': ['error'],
-      'no-multiple-empty-lines': 'error'
+      'no-multiple-empty-lines': 'error',
+      'space-before-function-paren': ['error', 'never']
     }
   }
 ];

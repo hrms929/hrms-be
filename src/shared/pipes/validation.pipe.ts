@@ -17,11 +17,11 @@ export class ValidationPipe implements PipeTransform<unknown> {
     forbidNonWhitelisted: true
   };
 
-  constructor (validatorOptions?: ValidatorOptions) {
+  constructor(validatorOptions?: ValidatorOptions) {
     this.validatorOptions = { ...this.validatorOptions, ...validatorOptions };
   }
 
-  async transform (value: unknown, { metatype }: ArgumentMetadata) {
+  async transform(value: unknown, { metatype }: ArgumentMetadata) {
     if (!metatype || !this.toValidate(metatype)) {
       return value;
     }
@@ -40,7 +40,7 @@ export class ValidationPipe implements PipeTransform<unknown> {
     return value;
   }
 
-  private toValidate (metatype: Function): boolean {
+  private toValidate(metatype: Function): boolean {
     const types: Function[] = [String, Boolean, Number, Array, Object];
     return !types.includes(metatype);
   }

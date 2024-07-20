@@ -12,7 +12,7 @@ export class Utils {
    * @param {any} value
    * @returns {boolean}
    */
-  public static isNil (value: any): boolean {
+  public static isNil(value: any): boolean {
     return value === null || value === undefined;
   }
 
@@ -20,7 +20,7 @@ export class Utils {
    *
    * @returns {string}
    */
-  public static genUUID (len = 16): string {
+  public static genUUID(len = 16): string {
     return this.uid.stamp(len);
   }
 
@@ -29,7 +29,7 @@ export class Utils {
    * @param {unknown} data
    * @returns {boolean}
    */
-  public static isObj (data: unknown): boolean {
+  public static isObj(data: unknown): boolean {
     return typeof data === 'object' && data !== null;
   }
 
@@ -37,7 +37,7 @@ export class Utils {
    *
    * @param {string} obj
    */
-  public static stringify (obj: any): string {
+  public static stringify(obj: any): string {
     if (obj instanceof Error) {
       return this.formatErr(obj);
     }
@@ -54,11 +54,20 @@ export class Utils {
   }
 
   /**
+   * 
+   * @param {object} obj 
+   * @returns {boolean}
+   */
+  public static isEmptyObj(obj: object) {
+    return Object.keys(obj).length === 0;
+  }
+
+  /**
    *
    * @param {any} value
    * @returns {unknown}
    */
-  public static defaultMask (value: any): null | undefined | object | string {
+  public static defaultMask(value: any): null | undefined | object | string {
     if (Utils.isNil(value)) {
       return value;
     }
@@ -81,21 +90,32 @@ export class Utils {
    * @return {string}
    */
    
-  public static maskObj (obj: ObjectLiteral, fields: string[], maskFn = this.defaultMask) {
-    const replacerFn = fields?.length ? (key: string, value: any) => (fields.includes(key) ? maskFn(value) : value) : null;
-  
+  public static maskObj(obj: ObjectLiteral, fields: string[] | ObjectLiteral, maskFn = this.defaultMask) {
+    let fieldsMap = {};
+    if (Array.isArray(fields)) {
+      fields.forEach(item => {
+        fieldsMap[item] = true;
+      });
+    } else if (typeof fields === 'object') {
+      fieldsMap = fields;
+    }
+    
+    const replacerFn = this.isEmptyObj(fieldsMap) ? null : (key: string, value: any) => (fieldsMap[key] ? maskFn(value) : value);
+
     return JSON.stringify(obj, replacerFn);
   }
 
   /**
    *
-   * @param {Error} error
+   * @param {Error | object} error
    * @returns {string}
    */
-  public static formatErr (error: Error): string {
+  public static formatErr(error: Error | object): string {
     if (error instanceof Error) {
       return `error | ${error.toString()} | stack | ${error.stack}`;
     }
+
+    return `error | ${this.stringify(error)}`;
   }
 
   /**
@@ -103,7 +123,7 @@ export class Utils {
    * @param {string} base64Str
    * @returns {number} - In bytes
    */
-  public static getFileSize (base64Str: string): number {
+  public static getBase64FileSize(base64Str: string): number {
     const str = base64Str.substring(base64Str.indexOf(',') + 1);
     const decoded = atob(str);
 
@@ -115,7 +135,7 @@ export class Utils {
    * @param {string} base64Str
    * @returns {string}
    */
-  public static getMediaType (base64Str: string): string {
+  public static getMediaType(base64Str: string): string {
     return base64Str.slice(base64Str.indexOf(':') + 1, base64Str.indexOf('/'));
   }
 
@@ -125,7 +145,7 @@ export class Utils {
    * @param {object} replacer
    * @returns {string}
    */
-  public static htmlValSubstituter (html: string, replacer: object) {
+  public static htmlValSubstituter(html: string, replacer: object) {
     for (const key in replacer) {
       html = html.replaceAll(`{${key}}`, (replacer[key] as string));
     }
@@ -138,7 +158,7 @@ export class Utils {
    * @param {number} len
    * @returns {string}
    */
-  public static genRandNo (len: number = 1): string {
+  public static genRandNo(len: number = 1): string {
     return Math.random().toString().slice(2, len + 2);
   }
 
@@ -148,7 +168,7 @@ export class Utils {
    * @param {number} saltRound
    * @returns {Promise<string>}
    */
-  public static async hash (val: string, saltRound: number = config.get('BCRYPT_SALT_ROUND')): Promise<string> {
+  public static async hash(val: string, saltRound: number = config.get('BCRYPT_SALT_ROUND')): Promise<string> {
     return await bcrypt.hash(val, saltRound);
   }
 
@@ -158,7 +178,7 @@ export class Utils {
    * @param {string} hashedVal
    * @returns {Promise<boolean>}
    */
-  public static async compareHash (plainVal: string, hashedVal: string): Promise<boolean> {
+  public static async compareHash(plainVal: string, hashedVal: string): Promise<boolean> {
     return await bcrypt.compare(plainVal, hashedVal);
   }
 }

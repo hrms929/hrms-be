@@ -33,7 +33,7 @@ class Config {
 
   private readonly API_BASE_URL: string;
 
-  constructor () {
+  constructor() {
     switch (this.ENVIRONMENT) {
       case Environment.DEVELOPMENT:
         this.API_BASE_URL = 'http://localhost:3000';
@@ -63,15 +63,15 @@ class Config {
     return this[key] as T;
   }
 
-  public isDev (): boolean {
+  public isDev(): boolean {
     return this.ENVIRONMENT === Environment.DEVELOPMENT;
   }
 
-  public isStaging (): boolean {
+  public isStaging(): boolean {
     return this.ENVIRONMENT === Environment.STAGING;
   }
 
-  public isProd (): boolean {
+  public isProd(): boolean {
     return this.ENVIRONMENT === Environment.PRODUCTION;
   }
 }

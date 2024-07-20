@@ -40,7 +40,7 @@ export class RequestTimeOutResDTO {
  * @param {HttpStatus} status
  * @returns {ObjectLiteral}
  */
-export function getErrResSchema (status: HttpStatus): ApiResponseOptions {
+export function getErrResSchema(status: HttpStatus): ApiResponseOptions {
   switch (status) {
     case HttpStatus.UNAUTHORIZED:
       return {

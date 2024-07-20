@@ -7,9 +7,9 @@ import { Folders } from '@/shared/enums';
 
 @Injectable()
 export class FileService implements OnModuleInit {
-  constructor () {}
+  constructor() {}
 
-  onModuleInit () {
+  onModuleInit() {
     cloudinary.config(CloudinaryConfig);
   }
 
@@ -19,7 +19,7 @@ export class FileService implements OnModuleInit {
    * @param {Folders} folder
    * @returns {UploadApiResponse}
    */
-  private async upload (flie: string, folder: Folders): Promise<UploadApiResponse> {
+  private async upload(flie: string, folder: Folders): Promise<UploadApiResponse> {
     return await cloudinary.uploader.upload(flie, {
       resource_type: 'auto',
       folder: `${Folders.BASE_PATH}/${folder}`
@@ -31,7 +31,7 @@ export class FileService implements OnModuleInit {
    * @param {string} profilePic
    * @returns {UploadApiResponse}
    */
-  public async uploadProfilePic (profilePic: string, ctx: ReqCtx | Ctx) {
+  public async uploadProfilePic(profilePic: string, ctx: ReqCtx | Ctx) {
     const result = await this.upload(profilePic, Folders.BASE_PATH);
     ctx.logger.log(
       `result | ${JSON.stringify(result)}`,
@@ -46,7 +46,7 @@ export class FileService implements OnModuleInit {
    * @param {string} publicId
    * @returns {boolean}
    */
-  public async deleteFile (
+  public async deleteFile(
     publicId: string,
     ctx: ReqCtx | Ctx
   ): Promise<boolean> {

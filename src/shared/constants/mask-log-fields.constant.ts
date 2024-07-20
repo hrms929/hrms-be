@@ -1,5 +1,12 @@
-export const reqFields = {
-  'POST /user': ['name']
-};
+const reqFields = [
+  'name'
+];
 
-export const resFields = {};
+const reqFieldsMap = {};
+reqFields.forEach(item => {
+  reqFieldsMap[item] = true;
+});
+
+export {
+  reqFieldsMap
+};

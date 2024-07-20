@@ -10,7 +10,7 @@ export class TestService {
     ctx.logger.updateContext(`userId | ${'1234'}`);
 
     const data = await this.userRepository.getUserData({ name: testDto.name });
-    ctx.logger.log(`userData | ${JSON.stringify(data)}`, 'TestService.test');
+    ctx.logger.log(`userData | ${JSON.stringify(data)}`, 'TestService | test');
 
     return { data };
   }

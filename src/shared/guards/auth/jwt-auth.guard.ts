@@ -13,7 +13,7 @@ import { redis } from '@/config';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
-  constructor (private readonly jwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   /**
    *
@@ -21,7 +21,7 @@ export class JwtAuthGuard implements CanActivate {
    * @param {ReqCtx} ctx
    * @returns {Promise<IJwtPayload | null>}
    */
-  private async validateJwtToken (_token: string, ctx: ReqCtx): Promise<IJwtPayload | null> {
+  private async validateJwtToken(_token: string, ctx: ReqCtx): Promise<IJwtPayload | null> {
     const [prefix, token] = _token.split(' ');
     if (prefix !== 'Bearer' || !token) {
       return null;
@@ -45,7 +45,7 @@ export class JwtAuthGuard implements CanActivate {
    * @param {ExecutionContext} context
    * @returns {Promise<boolean>}
    */
-  public async canActivate (context: ExecutionContext): Promise<boolean> {
+  public async canActivate(context: ExecutionContext): Promise<boolean> {
     const req: Request = context.switchToHttp().getRequest();
 
     const token = req.headers.authorization;
