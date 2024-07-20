@@ -13,7 +13,7 @@ export class MailerService implements OnModuleInit {
   private kickBox;
   private transporter;
 
-  onModuleInit () {
+  onModuleInit() {
     this.kickBox = kickbox.client(config.get('KICK_BOX_API_KEY')).kickbox();
     this.transporter = new nodemailer.createTransport(NodeMailerConfig);
   }
@@ -24,7 +24,7 @@ export class MailerService implements OnModuleInit {
    * @param {ReqCtx} ctx
    * @returns {boolean}
    */
-  public async isEmailValid (email: string, ctx: ReqCtx): Promise<boolean> {
+  public async isEmailValid(email: string, ctx: ReqCtx): Promise<boolean> {
     if (config.get('BYPASS_EMAIL_EXISTENCE_CHECK')) {
       return true;
     }
@@ -49,7 +49,7 @@ export class MailerService implements OnModuleInit {
    * @param {MailOptions} mailOptions
    * @returns
    */
-  private async sendEmail (mailOptions: MailOptions) {
+  private async sendEmail(mailOptions: MailOptions) {
     return await new Promise((resolve, reject) => {
       this.transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
@@ -66,7 +66,7 @@ export class MailerService implements OnModuleInit {
    * @param {string} toEmail
    * @param {string} otp
    */
-  public async verifyEmail (toEmail: string, otp: string) {
+  public async verifyEmail(toEmail: string, otp: string) {
     const html = fs.readFileSync('src/templates/verify-email.html', {
       encoding: 'utf-8'
     });
@@ -80,7 +80,7 @@ export class MailerService implements OnModuleInit {
     await this.sendEmail(mailOptions);
   }
 
-  public async restPasswordToken (toEmail: string, tokenUrl: string) {
+  public async restPasswordToken(toEmail: string, tokenUrl: string) {
     const html = fs.readFileSync('src/templates/reset-password.html', {
       encoding: 'utf-8'
     });

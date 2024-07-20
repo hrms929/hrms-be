@@ -10,7 +10,7 @@ import { Utils } from '@/shared/utils';
 
 @Catch()
 export class UnCaughtExceptionFilter<T> implements ExceptionFilter {
-  catch (exception: T, host: ArgumentsHost) {
+  catch(exception: T, host: ArgumentsHost) {
     const req: Request = host.switchToHttp().getRequest();
     const res: Response = host.switchToHttp().getResponse();
 
