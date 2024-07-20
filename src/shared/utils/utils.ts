@@ -82,10 +82,8 @@ export class Utils {
    */
    
   public static maskObj (obj: ObjectLiteral, fields: string[], maskFn = this.defaultMask) {
-    const replacerFn = fields?.length
-      ? (key: string, value: any) => (fields.includes(key) ? maskFn(value) : value)
-      : null;
-
+    const replacerFn = fields?.length ? (key: string, value: any) => (fields.includes(key) ? maskFn(value) : value) : null;
+  
     return JSON.stringify(obj, replacerFn);
   }
 
@@ -141,9 +139,7 @@ export class Utils {
    * @returns {string}
    */
   public static genRandNo (len: number = 1): string {
-    return Math.random()
-      .toString()
-      .slice(2, len + 2);
+    return Math.random().toString().slice(2, len + 2);
   }
 
   /**
@@ -152,10 +148,7 @@ export class Utils {
    * @param {number} saltRound
    * @returns {Promise<string>}
    */
-  public static async hash (
-    val: string,
-    saltRound: number = config.get('BCRYPT_SALT_ROUND')
-  ): Promise<string> {
+  public static async hash (val: string, saltRound: number = config.get('BCRYPT_SALT_ROUND')): Promise<string> {
     return await bcrypt.hash(val, saltRound);
   }
 

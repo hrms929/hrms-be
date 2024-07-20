@@ -26,8 +26,8 @@ export class Logger implements ILogger {
    * @returns {string}
    */
   private formatLog (message?: any, _context?: string, stack?: string): string {
-    const log: string = [this.context, _context, Utils.stringify(message), stack]
-      .filter((item) => item).join(' | ');
+    const log: string = [this.context, _context, Utils.stringify(message), stack].filter((item) => item).join(' | ');
+
     return log;
   }
 

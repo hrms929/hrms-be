@@ -5,6 +5,7 @@ import { TestDTO } from './test.dto';
 @Injectable()
 export class TestService {
   constructor(private readonly userRepository: UserRepository) {}
+
   async test(testDto: TestDTO, ctx: ReqCtx) {
     ctx.logger.updateContext(`userId | ${'1234'}`);
 

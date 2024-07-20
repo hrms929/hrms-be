@@ -1,6 +1,8 @@
-import { TConfig, Environment } from '@/shared/enums';
+import { TConfig, Environment, Econfig } from '@/shared/enums';
+import { Logger } from '@nestjs/common';
 
 class Config {
+  private readonly logger = new Logger(Config.name);
   private readonly ENVIRONMENT: string = process.env.ENVIRONMENT;
 
   private readonly POSTGRES_HOST: string = process.env.POSTGRES_HOST;
@@ -16,20 +18,18 @@ class Config {
 
   private readonly CLOUDINARY_API_KEY: string = process.env.CLOUDINARY_API_KEY;
   private readonly CLOUDINARY_API_SECRET: string = process.env.CLOUDINARY_API_SECRET;
-
   private readonly CLOUD_NAME: string = process.env.CLOUD_NAME;
 
   private readonly KICK_BOX_API_KEY: string = process.env.KICK_BOX_API_KEY;
 
   private readonly NODE_MAILER_USER: string = process.env.NODE_MAILER_USER;
   private readonly NODE_MAILER_PASS: string = process.env.NODE_MAILER_PASS;
-
   private readonly BYPASS_EMAIL_EXISTENCE_CHECK: boolean = process.env.BYPASS_EMAIL_EXISTENCE_CHECK === 'TRUE';
-
-  private readonly BCRYPT_SALT_ROUND: number = Number(process.env.BCRYPT_SALT_ROUND);
 
   private readonly JWT_PRIVATE_KEY: string = process.env.JWT_PRIVATE_KEY?.replace(/\\n/g, '\n');
   private readonly JWT_PUBLIC_KEY: string = process.env.JWT_PUBLIC_KEY?.replace(/\\n/g, '\n');
+
+  private readonly BCRYPT_SALT_ROUND: number = Number(process.env.BCRYPT_SALT_ROUND);
 
   private readonly API_BASE_URL: string;
 
@@ -45,6 +45,17 @@ class Config {
         this.BYPASS_EMAIL_EXISTENCE_CHECK = false;
         this.API_BASE_URL = '';
         break;
+    }
+
+    this.validate();
+  }
+
+  private validate() {
+    const configKeys = Object.keys(this);
+    for (const key of Object.values(Econfig)) {
+      if (!configKeys.includes(key as string)) {
+        this.logger.warn(`${key} is not present in class.`);
+      }
     }
   }
 

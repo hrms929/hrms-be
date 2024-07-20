@@ -4,8 +4,7 @@ import {
   PipeTransform,
   Injectable,
   ArgumentMetadata,
-  HttpException,
-  HttpStatus
+  BadRequestException
 } from '@nestjs/common';
 import { validate, ValidationError, ValidatorOptions } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
@@ -36,7 +35,7 @@ export class ValidationPipe implements PipeTransform<unknown> {
     }
 
     if (firstError) {
-      throw new HttpException(firstError.constraints[Object.keys(firstError.constraints)[0]], HttpStatus.BAD_REQUEST);
+      throw new BadRequestException({ message: firstError.constraints[Object.keys(firstError.constraints)[0]] });
     }
     return value;
   }

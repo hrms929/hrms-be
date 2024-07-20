@@ -51,7 +51,7 @@ export class MailerService implements OnModuleInit {
    */
   private async sendEmail (mailOptions: MailOptions) {
     return await new Promise((resolve, reject) => {
-      this.transporter.sendMail(mailOptions, function (err, info) {
+      this.transporter.sendMail(mailOptions, (err, info) => {
         if (err) {
           reject(new Error(err)); 
         }

@@ -1,10 +1,9 @@
 import {
   CallHandler,
   ExecutionContext,
-  HttpException,
-  HttpStatus,
   Injectable,
-  NestInterceptor
+  NestInterceptor,
+  RequestTimeoutException
 } from '@nestjs/common';
 
 import {
@@ -22,7 +21,7 @@ export class TimeoutInterceptor implements NestInterceptor {
       timeout(10000),
       catchError((err) => {
         if (err instanceof TimeoutError) {
-          return throwError(() => new HttpException('Request Timeout', HttpStatus.REQUEST_TIMEOUT));
+          return throwError(() => new RequestTimeoutException({ message: 'Request Timeout' }));
         }
         return throwError(() => err);
       })

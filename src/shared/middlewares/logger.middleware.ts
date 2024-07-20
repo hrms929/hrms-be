@@ -16,7 +16,10 @@ export class LoggerMiddleware implements NestMiddleware {
       body: req.body
     };
 
-    req.ctx.logger.log(`request log | ${Utils.maskObj(reqData, reqFields[req.ctx.routeKey])}`);
+    req.ctx.logger.log(
+      `request | ${Utils.maskObj(reqData, reqFields[req.ctx.routeKey])}`, 
+      'LoggerMiddleware'
+    );
 
     const resJson = res.json;
     res.json = function (body) {
@@ -25,8 +28,10 @@ export class LoggerMiddleware implements NestMiddleware {
         body,
         timeTakenMs: Date.now() - statrtTime
       };
+  
       req.ctx.logger.log(
-        `response log | ${Utils.maskObj(resLog, reqFields[req.ctx.routeKey])}`
+        `response | ${Utils.maskObj(resLog, reqFields[req.ctx.routeKey])}`, 
+        'LoggerMiddleware'
       );
 
       return resJson.call(this, body);
