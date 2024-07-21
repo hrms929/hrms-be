@@ -7,7 +7,7 @@ import { Logger } from '@/shared/logger';
 @Injectable()
 export class ReqCtxMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: () => void) {
-    const routeKey = `${req.method} ${req.path}`;
+    const routeKey = `${req.method} ${req.originalUrl}`;
     const requestId = Utils.genUUID();
     const logger = new Logger([routeKey, `requestId | ${requestId}`].join(' | '));
     req.ctx = { requestId, routeKey, logger };

@@ -68,5 +68,3 @@ export class Logger implements ILogger {
     logger.debug(this.formatLog(message, context));
   }
 }
-
-export default new Logger('defaultLogger');
