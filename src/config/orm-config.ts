@@ -11,5 +11,7 @@ export const DbConfig: PostgresConnectionOptions = {
   database: config.get('POSTGRES_DATABASE'),
   entities: [__dirname + '/../**/*.entity.js'],
   synchronize: false,
-  ssl: !config.isDev()
+  ssl: !config.isDev(),
+  logging: true,
+  logger: 'simple-console'
 };

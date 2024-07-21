@@ -6,7 +6,6 @@ import { ObjectLiteral } from '@/shared/interfaces';
 import { config } from '@/config';
 
 export class Utils {
-  private static readonly uid = new ShortUniqueId();
   /**
    *
    * @param {any} value
@@ -21,7 +20,8 @@ export class Utils {
    * @returns {string}
    */
   public static genUUID(len = 16): string {
-    return this.uid.stamp(len);
+    const uid = new ShortUniqueId();
+    return uid.stamp(len);
   }
 
   /**

@@ -1,8 +1,7 @@
 import { TConfig, Environment, Econfig } from '@/shared/enums';
-import { Logger } from '@nestjs/common';
+import logger from '@/shared/logger';
 
 class Config {
-  private readonly logger = new Logger(Config.name);
   private readonly ENVIRONMENT: string = process.env.ENVIRONMENT;
 
   private readonly POSTGRES_HOST: string = process.env.POSTGRES_HOST;
@@ -46,15 +45,13 @@ class Config {
         this.API_BASE_URL = '';
         break;
     }
-
-    this.validate();
   }
 
-  private validate() {
+  public validate() {
     const configKeys = Object.keys(this);
     for (const key of Object.values(Econfig)) {
       if (!configKeys.includes(key as string)) {
-        this.logger.warn(`${key} is not present in class.`);
+        logger.warn(`${key} is not present in Config class.`);
       }
     }
   }
