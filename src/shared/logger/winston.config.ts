@@ -7,7 +7,7 @@ const myFormat = printf(({ timestamp, level, message }) => {
 });
 
 const timezoned = () => {
-  return new Date().toLocaleString('en-US', {
+  return new Date().toLocaleString('en-GB', {
     timeZone: 'Asia/Calcutta'
   });
 };
